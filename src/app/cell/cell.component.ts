@@ -119,7 +119,7 @@ export class CellComponent implements OnInit {
         if (this.lifeAroundMap[i][j] == 3) {
           this.nextLifeMap[i][j] = true;
         }
-        else if (this.lifeAroundMap[i][j] < 2 || this.lifeAroundMap[i][j] > 3) {
+        else if (this.lifeMap[i][j] == true && this.lifeAroundMap[i][j] == 2 || this.lifeAroundMap[i][j] == 3) {
           this.nextLifeMap[i][j] = false;
         }
       }
@@ -131,8 +131,6 @@ export class CellComponent implements OnInit {
     for (let i = 1; i < 9; i++) {
       for (let j = 1; j < 9; j++) {
         let cell = this.getElement(i, j);
-        console.log('( ' + i + ' ; ' + j + ' )');
-        console.log('( cell )' , cell);
         if (cell && this.nextLifeMap[i][j] == true) {
           cell.className = 'isAlive';
         }
@@ -166,13 +164,15 @@ export class CellComponent implements OnInit {
     var value = idAttr.nodeValue;
     var cell = document.getElementById(value);
     return cell;
+
   }
 
   private getElement(i: number, j: number) {
+
     let cellId = i + '_' + j;
-    console.log('cellId : ' , cellId);
     var cell = document.getElementById(cellId);
     return cell;
+
   }
 
 
