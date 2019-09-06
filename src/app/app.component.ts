@@ -10,7 +10,12 @@ import { ViewEncapsulation } from '@angular/core';
 export class AppComponent {
   title = 'first-app';
 
+  arraySize = 10;
+
+
+  // lifeMap = this.setArraySize(this.arraySize);
   lifeMap: boolean[][] = 
+  
     [
       [false,false,false,false,false,false,false,false,false,false],
       [false,false,false,false,false,false,false,false,false,false],
@@ -52,8 +57,7 @@ export class AppComponent {
     ];
 
 
-  
-
+    ids: number = 4;
 
 
 
@@ -189,6 +193,12 @@ export class AppComponent {
       }
     }
 
+  }
+
+  setArraySize(arraySize: Number){
+    var lifeMap;
+    lifeMap.length = arraySize;
+    return lifeMap;
   }
 
 
