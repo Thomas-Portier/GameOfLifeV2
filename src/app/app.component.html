@@ -6,7 +6,7 @@
 <div class="grid">
         <div *ngFor="let columCell of lifeMap ; let i = index; ">
                 <div *ngFor="let cell of columCell ; let j = index; ">
-                        <div [attr.id] = "i+'_'+j" class="isDead" (mouseover)="handleClick($event)" ></div>
+                        <div [attr.id] = "j+'_'+i" class="isDead" (mouseover)="handleClick($event)" ></div>
                 </div>
         </div>
 </div>

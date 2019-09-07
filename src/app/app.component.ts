@@ -11,39 +11,41 @@ export class AppComponent {
 
   public lifeMap: boolean[][] = [];
   public nextLifeMap: boolean[][] = [];
+  public lifeMapCopy: boolean[][] = [];
   public lifeAroundMap: number[][] = [];
+  public numberOfCellOnSide = 20;
 
   constructor() {
 
     this.lifeMap = this.fillTableValuesWith(false);
-    this.nextLifeMap = this.lifeMap.slice(0);
+    this.lifeMapCopy = this.fillTableValuesWith(false);
+    this.nextLifeMap = this.fillTableValuesWith(false);
     this.lifeAroundMap = this.fillTableValuesWith(0);
 
   }
 
   private fillTableValuesWith( value ) {
-    let tableToreturn = [];
-    let numberOfCellOnSide = 50;
-    let row = [];
+    let tableToReturn = [];
+    let tableRow = [];
     let count = 0;
-    for (let i = 0; i < numberOfCellOnSide * numberOfCellOnSide; i++) {
+    for (let i = 0; i < this.numberOfCellOnSide * this.numberOfCellOnSide; i++) {
       count++;
-      if (count == numberOfCellOnSide) {
-        row.push(value);
-        tableToreturn.push(row);
+      if (count == this.numberOfCellOnSide) {
+        tableRow.push(value);
+        tableToReturn.push(tableRow);
         count = 0;
-        row = [];
+        tableRow = [];
       }
       else {
-        row.push(value);
+        tableRow.push(value);
       }
     }
-    return tableToreturn;
+    return tableToReturn;
   }
 
   public lifeStart(){    
     
-    this.getCurrentLifeMap();
+    this.setCurrentLifeMapCopy();
     this.setLifeAroundMap();
     this.setNextLifeMap();
     this.displayNextLifeMap();
@@ -51,57 +53,74 @@ export class AppComponent {
   }
 
 
-  private getCurrentLifeMap() {
-    for (let i = 0; i < 10; i++) {
-      for (let j = 0; j < 10; j++) {
+  private setCurrentLifeMapCopy() { 
+    let lifeMapCopy = this.fillTableValuesWith(false);
+    for (let i = 0; i < this.numberOfCellOnSide; i++) {
+      for (let j = 0; j < this.numberOfCellOnSide; j++) {
         var cell = this.getElement(i, j);
         if (cell && cell.className == 'isAlive') {
-          this.lifeMap[i][j] = true;
+          this.lifeMapCopy[i][j] = true;
         }
         else {
-          this.lifeMap[i][j] = false;
+          this.lifeMapCopy[i][j] = false;
         }
       }
     }
+
   }
 
 
 
 
   private setLifeAroundMap() {
-    for (let i = 1; i < 9; i++) {
-      for (let j = 1; j < 9; j++) {
+    for (let i = 0; i < this.numberOfCellOnSide ; i++) {
+      for (let j = 0; j < this.numberOfCellOnSide ; j++) {
         var lifeAroundCount = 0;
-        if (this.lifeMap[i - 1][j - 1] == true)
-          lifeAroundCount += 1;
-        if (this.lifeMap[i - 1][j] == true)
-          lifeAroundCount += 1;
-        if (this.lifeMap[i - 1][j + 1] == true)
-          lifeAroundCount += 1;
-        if (this.lifeMap[i][j - 1] == true)
-          lifeAroundCount += 1;
-        if (this.lifeMap[i][j + 1] == true)
-          lifeAroundCount += 1;
-        if (this.lifeMap[i + 1][j - 1] == true)
-          lifeAroundCount += 1;
-        if (this.lifeMap[i + 1][j] == true)
-          lifeAroundCount += 1;
-        if (this.lifeMap[i + 1][j + 1] == true)
-          lifeAroundCount += 1;
-        this.lifeAroundMap[i - 1][j - 1] = lifeAroundCount;
+        if(this.lifeMapCopy[i - 1] !== undefined){
+          if (this.lifeMapCopy[i - 1][j - 1] !== undefined && this.lifeMapCopy[i - 1][j - 1] )
+          lifeAroundCount++;
+          if ( this.lifeMapCopy[i - 1][j] !== undefined && this.lifeMapCopy[i - 1][j] )
+          lifeAroundCount++;
+          if ( this.lifeMapCopy[i - 1][j + 1] !==  undefined && this.lifeMapCopy[i - 1][j + 1] )
+          lifeAroundCount++;
+        }
+
+        if ( this.lifeMapCopy[i][j - 1] !==  undefined && this.lifeMapCopy[i][j - 1] )
+        lifeAroundCount++;
+        if ( this.lifeMapCopy[i][j + 1] !==  undefined && this.lifeMapCopy[i][j + 1] )
+        lifeAroundCount++;
+
+        if(this.lifeMapCopy[i + 1] !== undefined){
+          if ( this.lifeMapCopy[i + 1][j - 1] !==  undefined && this.lifeMapCopy[i + 1][j - 1] )
+          lifeAroundCount++;
+          if ( this.lifeMapCopy[i + 1][j] !==  undefined && this.lifeMapCopy[i + 1][j] )
+          lifeAroundCount++;
+          if ( this.lifeMapCopy[i + 1][j + 1] !==  undefined &&  this.lifeMapCopy[i + 1][j + 1] )
+          lifeAroundCount++;
+        }
+
+        this.lifeAroundMap[i][j] = lifeAroundCount;
       }
     }
   }
 
 
   private setNextLifeMap() {
-    for (let i = 1; i < 9; i++) {
-      for (let j = 1; j < 9; j++) {
-        if (this.lifeAroundMap[i][j] == 3) {
-          this.nextLifeMap[i][j] = true;
-        }
-        else if (this.lifeMap[i][j] == true && this.lifeAroundMap[i][j] == 2 || this.lifeAroundMap[i][j] == 3) {
-          this.nextLifeMap[i][j] = false;
+    for (let i = 0; i < this.numberOfCellOnSide; i++) {
+      for (let j = 0; j < this.numberOfCellOnSide; j++) {
+
+        if (this.lifeMapCopy[i][j] == false){
+          if(this.lifeAroundMap[i][j] == 3){
+            this.nextLifeMap[i][j] = true;
+          }
+        }  
+
+        if(this.lifeMapCopy[i][j]){
+          if(this.lifeAroundMap[i][j] == 2 || this.lifeAroundMap[i][j] == 3){
+            this.nextLifeMap[i][j] = true;
+          } else{
+            this.nextLifeMap[i][j] = false;
+          }
         }
       }
     }
@@ -109,10 +128,11 @@ export class AppComponent {
 
 
   private displayNextLifeMap() {
-    for (let i = 1; i < 9; i++) {
-      for (let j = 1; j < 9; j++) {
+    
+    for (let i = 0; i < this.numberOfCellOnSide; i++) {
+      for (let j = 0; j < this.numberOfCellOnSide; j++) {
         let cell = this.getElement(i, j);
-        if (cell && this.nextLifeMap[i][j] == true) {
+        if (this.nextLifeMap[i][j] == true) {
           cell.className = 'isAlive';
         }
         else {
@@ -120,12 +140,12 @@ export class AppComponent {
         }
       }
     }
+
   }
 
   public handleClick(event) {
     var cell = this.getClickedElement(event)
     this.changeColor(cell);
-
   }
 
   public changeColor(cell){
