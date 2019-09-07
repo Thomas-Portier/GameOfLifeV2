@@ -1,7 +1,7 @@
 
 <div class="grid">
-        <div *ngFor="let columCell of lifeMap; let i = index; ">
-                <div *ngFor="let cell of columCell; let j = index; ">
+        <div *ngFor="let columCell of lifeMap ; let i = index; ">
+                <div *ngFor="let cell of columCell ; let j = index; ">
                         <div [attr.id] = "i+'_'+j" class="cell" (click)="handleClick($event)" ></div>
                 </div>
         </div>

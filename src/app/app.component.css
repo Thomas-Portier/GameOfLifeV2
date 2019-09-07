@@ -1,49 +1,26 @@
+.cell{
+  background: #F58787;
+  height: 25px;
+  width: 25px;
+    
+}
 
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, 50px);
-    grid-auto-rows: 1fr;
-  }
-  
-  .grid::before {
-    content: '';
-    width: 0;
-    padding-bottom: 100%;
-    grid-row: 1 / 1;
-    grid-column: 1 / 1;
-  }
-  
-  .grid .cell {
-    grid-row: 1 / 1;
-    grid-column: 1 / 1;
-  
-  }
-  
-  /* Just to make the grid visible */
-  
-  .grid .cell {
-      margin-left: 0.2em;
-      margin-top: 0.2em;
-      border-radius: 0.7em;
-  
-  }
-  
-  .cell{
-      background: #ccc;
-      
-  }
-  
-  
-  .grid > *:hover {
-      background: #F58787;
-      cursor: pointer;
-  }
+.grid {
+  display: flex;
+  justify-content: center;
+}
 
-  .isAlive {
-    background: #F58787;
-  }
 
-  .isDead {
-    background: #ccc;
-  }
+.grid > *:hover {
+  background: #F58787;
+  cursor: pointer;
+}
+
+.isAlive {
+  background: #F58787;
+}
+
+.isDead {
+  background: #ccc;
+}
   
