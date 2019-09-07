@@ -9,22 +9,23 @@ import { ViewEncapsulation } from '@angular/core';
 })
 export class AppComponent {
   title = 'first-app';
+  public my_Class = 'cell';
 
 
-  lifeMap: boolean[][] = 
+  lifeMap: boolean[][] = [];// = 
   
-    [
-      [false,false,false,false,false,false,false,false,false,false],
-      [false,false,false,false,false,false,false,false,false,false],
-      [false,false,false,false,false,false,false,false,false,false],
-      [false,false,false,false,false,false,false,false,false,false],
-      [false,false,false,false,false,false,false,false,false,false],
-      [false,false,false,false,false,false,false,false,false,false],
-      [false,false,false,false,false,false,false,false,false,false],
-      [false,false,false,false,false,false,false,false,false,false],
-      [false,false,false,false,false,false,false,false,false,false],
-      [false,false,false,false,false,false,false,false,false,false]
-    ];  
+    // [
+    //   [false,false,false,false,false,false,false,false,false,false],
+    //   [false,false,false,false,false,false,false,false,false,false],
+    //   [false,false,false,false,false,false,false,false,false,false],
+    //   [false,false,false,false,false,false,false,false,false,false],
+    //   [false,false,false,false,false,false,false,false,false,false],
+    //   [false,false,false,false,false,false,false,false,false,false],
+    //   [false,false,false,false,false,false,false,false,false,false],
+    //   [false,false,false,false,false,false,false,false,false,false],
+    //   [false,false,false,false,false,false,false,false,false,false],
+    //   [false,false,false,false,false,false,false,false,false,false]
+    // ];  
     
     nextLifeMap: boolean[][] = 
     [
@@ -53,6 +54,30 @@ export class AppComponent {
       [0,0,0,0,0,0,0,0,0],
     ];
 
+    constructor() {
+
+      this.initTable();
+
+    }
+
+  private initTable() {
+    let numberOfCellOnSide = 50;
+    let row = [];
+    let count = 0;
+    for (let i = 0; i < numberOfCellOnSide * numberOfCellOnSide; i++) {
+      count++;
+      if (count == numberOfCellOnSide) {
+        row.push(false);
+        this.lifeMap.push(row);
+        count = 0;
+        row = [];
+      }
+      else {
+        row.push(false);
+      }
+    }
+  }
+
   public lifeStart(){    
     
     this.getCurrentLifeMap();
@@ -62,7 +87,9 @@ export class AppComponent {
     
   }
 
-
+  trackByFn(index, item) {
+    return index; 
+}
 
 
   private getCurrentLifeMap() {
@@ -139,6 +166,7 @@ export class AppComponent {
   public handleClick(event) {
     var cell = this.getClickedElement(event)
     this.changeColor(cell);
+
   }
 
   public changeColor(cell){
@@ -153,7 +181,6 @@ export class AppComponent {
 
 
   public getClickedElement(event ){
-
     var target = event.target || event.srcElement || event.currentTarget;
     var idAttr = target.attributes.id;
     var value = idAttr.nodeValue;
@@ -167,24 +194,6 @@ export class AppComponent {
     let cellId = i + '_' + j;
     var cell = document.getElementById(cellId);
     return cell;
-
-  }
-
-  createCell(){
-    const numberOfCellOnSide :Number  = 10;
-
-    for (let i = 0; i < numberOfCellOnSide; i++) {
-      for (let j = 0; j < numberOfCellOnSide; j++) {
-        var iDiv = document.createElement('app-cell');
-        iDiv.id = i + '_' + j;
-        iDiv.className = 'cell';
-        iDiv.addEventListener("click", (event: Event) => {
-          this.handleClick(event);
-        });
-        document.getElementsByClassName('grid')[0].appendChild(iDiv);
-      }
-    }
-
 
   }
 
