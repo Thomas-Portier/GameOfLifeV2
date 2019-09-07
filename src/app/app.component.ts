@@ -8,74 +8,37 @@ import { ViewEncapsulation } from '@angular/core';
   encapsulation: ViewEncapsulation.None
 })
 export class AppComponent {
-  title = 'first-app';
-  public my_Class = 'cell';
 
+  public lifeMap: boolean[][] = [];
+  public nextLifeMap: boolean[][] = [];
+  public lifeAroundMap: number[][] = [];
 
-  lifeMap: boolean[][] = [];// = 
-  
-    // [
-    //   [false,false,false,false,false,false,false,false,false,false],
-    //   [false,false,false,false,false,false,false,false,false,false],
-    //   [false,false,false,false,false,false,false,false,false,false],
-    //   [false,false,false,false,false,false,false,false,false,false],
-    //   [false,false,false,false,false,false,false,false,false,false],
-    //   [false,false,false,false,false,false,false,false,false,false],
-    //   [false,false,false,false,false,false,false,false,false,false],
-    //   [false,false,false,false,false,false,false,false,false,false],
-    //   [false,false,false,false,false,false,false,false,false,false],
-    //   [false,false,false,false,false,false,false,false,false,false]
-    // ];  
-    
-    nextLifeMap: boolean[][] = 
-    [
-      [false,false,false,false,false,false,false,false,false,false],
-      [false,false,false,false,false,false,false,false,false,false],
-      [false,false,false,false,false,false,false,false,false,false],
-      [false,false,false,false,false,false,false,false,false,false],
-      [false,false,false,false,false,false,false,false,false,false],
-      [false,false,false,false,false,false,false,false,false,false],
-      [false,false,false,false,false,false,false,false,false,false],
-      [false,false,false,false,false,false,false,false,false,false],
-      [false,false,false,false,false,false,false,false,false,false],
-      [false,false,false,false,false,false,false,false,false,false]
-    ];
+  constructor() {
 
-    lifeAroundMap: number[][] = 
-    [ 
-      [0,0,0,0,0,0,0,0,0],
-      [0,0,0,0,0,0,0,0,0],
-      [0,0,0,0,0,0,0,0,0],
-      [0,0,0,0,0,0,0,0,0],
-      [0,0,0,0,0,0,0,0,0],
-      [0,0,0,0,0,0,0,0,0],
-      [0,0,0,0,0,0,0,0,0],
-      [0,0,0,0,0,0,0,0,0],
-      [0,0,0,0,0,0,0,0,0],
-    ];
+    this.lifeMap = this.fillTableValuesWith(false);
+    this.nextLifeMap = this.lifeMap.slice(0);
+    this.lifeAroundMap = this.fillTableValuesWith(0);
 
-    constructor() {
+  }
 
-      this.initTable();
-
-    }
-
-  private initTable() {
+  private fillTableValuesWith( value ) {
+    let tableToreturn = [];
     let numberOfCellOnSide = 50;
     let row = [];
     let count = 0;
     for (let i = 0; i < numberOfCellOnSide * numberOfCellOnSide; i++) {
       count++;
       if (count == numberOfCellOnSide) {
-        row.push(false);
-        this.lifeMap.push(row);
+        row.push(value);
+        tableToreturn.push(row);
         count = 0;
         row = [];
       }
       else {
-        row.push(false);
+        row.push(value);
       }
     }
+    return tableToreturn;
   }
 
   public lifeStart(){    
@@ -86,10 +49,6 @@ export class AppComponent {
     this.displayNextLifeMap();
     
   }
-
-  trackByFn(index, item) {
-    return index; 
-}
 
 
   private getCurrentLifeMap() {
