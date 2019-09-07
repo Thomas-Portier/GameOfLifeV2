@@ -14,6 +14,7 @@ export class AppComponent {
   public lifeMapCopy: boolean[][] = [];
   public lifeAroundMap: number[][] = [];
   public numberOfCellOnSide = 20;
+  public generationNumber = 10;
 
   constructor() {
 
@@ -44,17 +45,21 @@ export class AppComponent {
   }
 
   public lifeStart(){    
-    
-    this.setCurrentLifeMapCopy();
-    this.setLifeAroundMap();
-    this.setNextLifeMap();
-    this.displayNextLifeMap();
+
+    this.handleOneLifeCycle();
     
   }
 
 
+  private handleOneLifeCycle() {
+    this.setCurrentLifeMapCopy();
+    this.setLifeAroundMap();
+    this.setNextLifeMap();
+    this.displayNextLifeMap();
+  }
+
   private setCurrentLifeMapCopy() { 
-    let lifeMapCopy = this.fillTableValuesWith(false);
+
     for (let i = 0; i < this.numberOfCellOnSide; i++) {
       for (let j = 0; j < this.numberOfCellOnSide; j++) {
         var cell = this.getElement(i, j);
@@ -66,7 +71,7 @@ export class AppComponent {
         }
       }
     }
-
+    return null;
   }
 
 
@@ -102,6 +107,7 @@ export class AppComponent {
         this.lifeAroundMap[i][j] = lifeAroundCount;
       }
     }
+    return null;
   }
 
 
@@ -124,6 +130,7 @@ export class AppComponent {
         }
       }
     }
+    return null;
   }
 
 
@@ -140,7 +147,7 @@ export class AppComponent {
         }
       }
     }
-
+    return null;
   }
 
   public handleClick(event) {
