@@ -14,7 +14,8 @@ export class AppComponent {
   public lifeMapCopy: boolean[][] = [];
   public lifeAroundMap: number[][] = [];
   public numberOfCellOnSide = 20;
-  public generationNumber = 10;
+  public maxGenerationNumber = 200;
+  public currentGeneration = 0;
 
   constructor() {
 
@@ -52,10 +53,20 @@ export class AppComponent {
 
 
   private handleOneLifeCycle() {
+
     this.setCurrentLifeMapCopy();
     this.setLifeAroundMap();
     this.setNextLifeMap();
     this.displayNextLifeMap();
+
+    this.currentGeneration++;
+    if(this.currentGeneration < this.maxGenerationNumber){
+
+      setTimeout(() => {
+        this.handleOneLifeCycle();
+      }, 400); 
+
+    }
   }
 
   private setCurrentLifeMapCopy() { 
@@ -182,6 +193,9 @@ export class AppComponent {
     return cell;
 
   }
+
+
+  
 
 
 }
