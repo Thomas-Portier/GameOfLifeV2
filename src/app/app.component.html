@@ -1,6 +1,7 @@
 
-
-<button (click)="lifeStart()">life Start !</button>
+<button type="button" [disabled]="startButtonclicked" (click)="lifeStart(); startButtonclicked = true;" class="btn btn-primary">life Start !</button>
+<button type="button" [disabled]="pauseButtonclicked" (click)="lifePaused(); pauseButtonclicked = true;" class="btn btn-primary">life Pause !</button>
+<input id="rangeInput" type="range" [(ngModel)]="speed" min="1" max="100">
 
 
 <div class="grid">
@@ -10,3 +11,7 @@
                 </div>
         </div>
 </div>
+
+<!-- <input [(ngModel)]="delay"> -->
+
+

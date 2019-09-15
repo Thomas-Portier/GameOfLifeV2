@@ -1,10 +1,5 @@
-.cell{
-  background: #ccc;
-  height: 50px;
-  width: 50px;
-  margin-right: 5px;
-  margin-bottom: 5px;
-    
+* {
+  background: grey;
 }
 
 .grid {
@@ -14,25 +9,26 @@
 
 
 .cell :hover {
-  background: #F58787;
+  background: #4aa4ed;
   cursor: pointer;
 }
 
 .isAlive {
-  background: #F58787;
-  height: 40px;
-  width: 40px;
-  margin-right: 5px;
-  margin-bottom: 5px;
+  background: #4aa4ed;
+  height: 10px;
+  width: 10px;
+  margin-right: 2px;
+  margin-bottom: 2px;
+  border-radius: 2px; 
     
 }
 
 .isDead {
-  background: #ccc;
-  height: 40px;
-  width: 40px;
-  margin-right: 5px;
-  margin-bottom: 5px;
-    
+  background: #22303b;
+  height: 10px;
+  width: 10px;
+  margin-right: 2px;
+  margin-bottom: 2px;
+  border-radius: 2px; 
 }
   

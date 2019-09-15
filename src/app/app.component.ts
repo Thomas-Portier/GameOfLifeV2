@@ -1,21 +1,29 @@
 import { Component } from '@angular/core';
-import { ViewEncapsulation } from '@angular/core';
+
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  encapsulation: ViewEncapsulation.None
+  // encapsulation: ViewEncapsulation.None
 })
 export class AppComponent {
 
+  public startButtonclicked = false;
+  public pauseButtonclicked = false;
   public lifeMap: boolean[][] = [];
   public nextLifeMap: boolean[][] = [];
   public lifeMapCopy: boolean[][] = [];
   public lifeAroundMap: number[][] = [];
-  public numberOfCellOnSide = 20;
-  public maxGenerationNumber = 200;
+  public numberOfCellOnSide = 70;
   public currentGeneration = 0;
+  // public delay = 500; //in milliseconds
+  public speed = 1; 
+  public delay = 2048; //in milliseconds
+
+  public isGameOver = false;
+  public isGamePaused = false;
 
   constructor() {
 
@@ -30,7 +38,7 @@ export class AppComponent {
     let tableToReturn = [];
     let tableRow = [];
     let count = 0;
-    for (let i = 0; i < this.numberOfCellOnSide * this.numberOfCellOnSide; i++) {
+    for (let i = 0; i < this.numberOfCellOnSide * this.numberOfCellOnSide ; i++) {
       count++;
       if (count == this.numberOfCellOnSide) {
         tableRow.push(value);
@@ -46,28 +54,41 @@ export class AppComponent {
   }
 
   public lifeStart(){    
+    this.isGameOver = false;
+    this.isGamePaused = false;
+    this.pauseButtonclicked = false;
+    this.currentGeneration = 0;
+      this.handleOneLifeCycle();      
+  }
 
-    this.handleOneLifeCycle();
-    
+  public lifePaused(){
+    this.startButtonclicked = false;
+    this.isGamePaused = true;
   }
 
 
   private handleOneLifeCycle() {
 
-    this.setCurrentLifeMapCopy();
-    this.setLifeAroundMap();
-    this.setNextLifeMap();
-    this.displayNextLifeMap();
 
-    this.currentGeneration++;
-    if(this.currentGeneration < this.maxGenerationNumber){
+    if(!this.isGamePaused){
 
-      setTimeout(() => {
-        this.handleOneLifeCycle();
-      }, 400); 
+      this.setDelayWithSpeedRange();
+      this.setCurrentLifeMapCopy();
+      this.setLifeAroundMap();
+      this.setNextLifeMap();
+      this.displayNextLifeMap();
+      this.setIsgameOver();
 
+      this.currentGeneration++;
+      if(!this.isGameOver){
+          setTimeout(() => {
+            this.handleOneLifeCycle();
+          }, this.delay); 
+      } 
     }
   }
+
+
 
   private setCurrentLifeMapCopy() { 
 
@@ -147,6 +168,7 @@ export class AppComponent {
 
   private displayNextLifeMap() {
     
+    
     for (let i = 0; i < this.numberOfCellOnSide; i++) {
       for (let j = 0; j < this.numberOfCellOnSide; j++) {
         let cell = this.getElement(i, j);
@@ -160,6 +182,15 @@ export class AppComponent {
     }
     return null;
   }
+
+
+  private setIsgameOver() {
+    if (_.isEqual(this.nextLifeMap, this.lifeMapCopy)) {
+      this.isGameOver = true;
+    }
+  }
+
+
 
   public handleClick(event) {
     var cell = this.getClickedElement(event)
@@ -194,7 +225,28 @@ export class AppComponent {
 
   }
 
-
+  private setDelayWithSpeedRange() {
+    if (this.speed > 0 && this.speed < 10)
+      this.delay = 2048;
+    if (this.speed > 10 && this.speed < 20)
+      this.delay = 1024;
+    if (this.speed > 20 && this.speed < 30)
+      this.delay = 512;
+    if (this.speed > 30 && this.speed < 40)
+      this.delay = 256;
+    if (this.speed > 40 && this.speed < 50)
+      this.delay = 128;
+    if (this.speed > 50 && this.speed < 60)
+      this.delay = 64;
+    if (this.speed > 60 && this.speed < 70)
+      this.delay = 32;
+    if (this.speed > 70 && this.speed < 80)
+      this.delay = 16;
+    if (this.speed > 80 && this.speed < 90)
+      this.delay = 8;
+    if (this.speed > 90 && this.speed <= 100)
+      this.delay = 4;
+  }
   
 
 
