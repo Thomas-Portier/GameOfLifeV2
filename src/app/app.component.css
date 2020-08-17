@@ -1,5 +1,6 @@
 * {
-  background: grey;
+  background: #22527a;
+
 }
 
 .grid {
@@ -9,26 +10,26 @@
 
 
 .cell :hover {
-  background: #4aa4ed;
+  background: #82ce62;
   cursor: pointer;
 }
 
 .isAlive {
-  background: #4aa4ed;
+  background: #82ce62;
   height: 10px;
   width: 10px;
   margin-right: 2px;
   margin-bottom: 2px;
-  border-radius: 2px; 
-    
+  border-radius: 2px;
+
 }
 
 .isDead {
-  background: #22303b;
+  background: #2f7db9;
   height: 10px;
   width: 10px;
   margin-right: 2px;
   margin-bottom: 2px;
-  border-radius: 2px; 
+  border-radius: 2px;
 }
-  
+
